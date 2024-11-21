@@ -1,12 +1,10 @@
 import express from 'express';
+import { list_posts } from '../controllers/posts_controllers.js';
 
 const routes = (app) => {
     app.use(express.json());
 
-    app.get("/posts", async (req, res) => {
-        const posts = await get_all_posts();
-        res.status(200).json(posts);
-    });   
+    app.get("/posts", list_posts);   
 };
 
 export default routes;
