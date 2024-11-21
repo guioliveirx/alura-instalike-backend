@@ -2,7 +2,7 @@
 import express from 'express';
 import conectarAoBanco from './src/config/db_config.js';
 
-await conectarAoBanco(process.env.STRING_CONEXAO);
+const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
 
 const posts = [
     {
@@ -54,18 +54,26 @@ app.listen(3000, () => {
 });
 
 // Quando acessada a rota "/api" eu solicito que meu servidor pegue uma resposta e exiba na tela. 
-app.get("/posts", (req, res) => {
+async function get_all_posts(){
+    const db = conexao.db("imersao-instabytes");
+    const collection = db.collection("posts");
+    return collection.find().toArray();
+}
+
+app.get("/posts", async (req, res) => {
+    const posts = await get_all_posts();
     res.status(200).json(posts);
 });
 
-function buscarPostPorId(id){
-    return posts.findIndex((post) => {
-        // Verifica a igualdade entre o id do post no indice atual e o id recebido como parâmetro na função. Retorna verdadeiro ou falso.
-        return post.id === Number(id);
-    })
-}
 
-app.get("/posts/:id", (req, res) => {
-    const index = buscarPostPorId(req.params.id);
-    res.status(200).json(posts[index]);
-});
+// function buscarPostPorId(id){
+//     return posts.findIndex((post) => {
+//         // Verifica a igualdade entre o id do post no indice atual e o id recebido como parâmetro na função. Retorna verdadeiro ou falso.
+//         return post.id === Number(id);
+//     })
+// }
+
+// app.get("/posts/:id", (req, res) => {
+//     const index = buscarPostPorId(req.params.id);
+//     res.status(200).json(posts[index]);
+// });
