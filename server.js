@@ -1,5 +1,8 @@
-// Estou primeiro dando um apelido (express) e depois armazenando as importações do módulo "express" nessa instância.
-import express from 'express'
+// Estou primeiro dando o nome usado das exportações (padrões ou nomeadas) e depois armazenando as importações do módulo "express" nessa instância.
+import express from 'express';
+import conectarAoBanco from './src/config/db_config.js';
+
+await conectarAoBanco(process.env.STRING_CONEXAO);
 
 const posts = [
     {
