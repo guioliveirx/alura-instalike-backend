@@ -8,3 +8,9 @@ export async function get_all_posts(){
     const collection = db.collection("posts");
     return collection.find().toArray();
 }
+
+export async function create_post(new_post){
+    const db = conexao.db("imersao-instabytes");
+    const collection = db.collection("posts");
+    return collection.insertOne(new_post);
+}
