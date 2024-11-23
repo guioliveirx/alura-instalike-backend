@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ dest: "./uploads" , storage})
+const upload = multer({ storage: storage });
 
 const routes = (app) => {
     // Middleware para converter objetos JSON em objetos Javascript
